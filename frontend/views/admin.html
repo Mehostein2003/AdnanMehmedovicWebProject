@@ -1,0 +1,27 @@
+<div class="container page">
+  <h2 class="mb-3">Admin</h2>
+  <ul class="nav nav-tabs mb-3" role="tablist">
+    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#t-brands" type="button">Brands</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#t-vehicles" type="button">Vehicles</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#t-drives" type="button">Test drives</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#t-reviews" type="button">Reviews</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#t-users" type="button">Users</button></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="t-brands"><button class="btn btn-primary btn-sm mb-2">Add brand</button>
+      <div class="table-responsive"><table class="table table-striped bg-white"><thead><tr><th>ID</th><th>Name</th><th>Country</th><th></th></tr></thead>
+      <tbody><tr><td>1</td><td>Toyota</td><td>Japan</td><td><button class="btn btn-sm btn-outline-primary">Edit</button> <button class="btn btn-sm btn-outline-primary">Delete</button></td></tr></tbody></table></div></div>
+    <div class="tab-pane fade" id="t-vehicles"><button class="btn btn-primary btn-sm mb-2">Add vehicle</button>
+      <div class="table-responsive"><table class="table table-striped bg-white"><thead><tr><th>ID</th><th>Brand</th><th>Model</th><th>Year</th><th>Price</th><th>Status</th><th></th></tr></thead>
+      <tbody><tr><td>1</td><td>Toyota</td><td>Camry</td><td>2019</td><td>$18,900</td><td>Available</td><td><button class="btn btn-sm btn-outline-primary">Edit</button> <button class="btn btn-sm btn-outline-primary">Delete</button></td></tr></tbody></table></div></div>
+    <div class="tab-pane fade" id="t-drives">
+      <div class="table-responsive"><table class="table table-striped bg-white"><thead><tr><th>ID</th><th>User</th><th>Vehicle</th><th>Date</th><th>Status</th><th></th></tr></thead>
+      <tbody><tr><td>1</td><td>Sam Customer</td><td>2019 Toyota Camry</td><td>2026-11-05 10:00</td><td>Pending</td><td><button class="btn btn-sm btn-outline-primary">Approve</button> <button class="btn btn-sm btn-outline-primary">Delete</button></td></tr></tbody></table></div></div>
+    <div class="tab-pane fade" id="t-reviews">
+      <div class="table-responsive"><table class="table table-striped bg-white"><thead><tr><th>ID</th><th>User</th><th>Vehicle</th><th>Rating</th><th>Comment</th><th></th></tr></thead>
+      <tbody><tr><td>1</td><td>Sam Customer</td><td>2019 Toyota Camry</td><td>5</td><td>Smooth ride.</td><td><button class="btn btn-sm btn-outline-primary">Delete</button></td></tr></tbody></table></div></div>
+    <div class="tab-pane fade" id="t-users">
+      <div class="table-responsive"><table class="table table-striped bg-white"><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
+      <tbody><tr><td>1</td><td>Sam Customer</td><td>sam@example.com</td><td>customer</td><td><button class="btn btn-sm btn-outline-primary">Edit</button> <button class="btn btn-sm btn-outline-primary">Delete</button></td></tr></tbody></table></div></div>
+  </div>
+</div>
