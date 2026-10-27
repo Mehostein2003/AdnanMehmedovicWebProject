@@ -1,0 +1,13 @@
+# secrets and local config
+backend/config/config.php
+.env
+# logs
+backend/logs/*
+!backend/logs/.gitkeep
+# dependencies
+backend/vendor/
+node_modules/
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

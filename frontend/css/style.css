@@ -1,0 +1,17 @@
+:root { --redline:#d61f26; --redline-dark:#a8161c; --ink:#161616; --bs-primary:#d61f26; --bs-primary-rgb:214,31,38; }
+body { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:#f8f9fa; padding-top:56px; }
+h1,h2,h3,h4,.navbar-brand { font-family:"Arial Narrow","Barlow Condensed",Impact,sans-serif; font-weight:700; letter-spacing:.04em; }
+a { color:var(--redline); } a:hover { color:var(--redline-dark); }
+#mainNav { background:var(--ink); }
+#mainNav .nav-link.active, #mainNav .nav-link:hover { color:#ef4a50; }
+.btn-primary { --bs-btn-bg:var(--redline); --bs-btn-border-color:var(--redline); --bs-btn-hover-bg:var(--redline-dark); --bs-btn-hover-border-color:var(--redline-dark); --bs-btn-active-bg:var(--redline-dark); --bs-btn-active-border-color:var(--redline-dark); }
+.btn-outline-primary { --bs-btn-color:var(--redline); --bs-btn-border-color:var(--redline); --bs-btn-hover-bg:var(--redline); --bs-btn-hover-border-color:var(--redline); --bs-btn-active-bg:var(--redline); }
+.nav-tabs .nav-link { color:var(--ink); } .nav-tabs .nav-link.active { color:var(--redline); }
+.form-control:focus,.form-select:focus { border-color:var(--redline); box-shadow:0 0 0 .2rem rgba(214,31,38,.25); }
+.masthead { min-height:80vh; display:flex; align-items:center; text-align:center; color:#fff;
+  background:linear-gradient(180deg,rgba(22,22,22,.55),#161616),repeating-linear-gradient(115deg,#2a2a2a 0 18px,#222 18px 36px); }
+.masthead h1 { font-size:clamp(2.5rem,9vw,5.5rem); text-transform:uppercase; }
+.page { padding-top:2.5rem; padding-bottom:3rem; }
+.ph { background:#dee2e6; color:#adb5bd; height:180px; display:flex; align-items:center; justify-content:center; font-size:3rem; }
+.api-card { border:2px dashed var(--redline); background:#fff; }
+.footer { background:var(--ink); }
