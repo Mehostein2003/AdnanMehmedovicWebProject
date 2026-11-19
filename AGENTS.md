@@ -21,6 +21,7 @@ Redline Autos: SPA for a used-car dealership. Customers browse vehicles, book te
 ```
 backend/  routes/ services/ dao/ middleware/ config/ logs/(git-ignored)
 frontend/ index.html  css/  js/  views/  assets/
+database/ redline_autos.sql (schema + sample data)
 docs/     ERD.md  AI_LOG.md
 ```
 
