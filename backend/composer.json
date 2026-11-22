@@ -1,0 +1,11 @@
+{
+    "name": "adnanmehmedovic/redline-autos-backend",
+    "description": "REST API for Redline Autos (FlightPHP, PDO, MySQL)",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "ext-curl": "*",
+        "ext-pdo": "*",
+        "flightphp/core": "^3.0"
+    }
+}

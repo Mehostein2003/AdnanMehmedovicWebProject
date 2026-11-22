@@ -1,0 +1,7 @@
+# Apache (XAMPP): send every request to index.php, except real files such as /swagger/.
+RewriteEngine On
+# Never serve the PHP source folders directly.
+RewriteRule ^(config|dao|services|routes|middleware|logs|vendor)(/|$) - [F,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
