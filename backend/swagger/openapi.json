@@ -1,0 +1,1539 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Redline Autos API",
+    "version": "1.0.0",
+    "description": "REST API of the Redline Autos used-car dealership (Milestone 3). Authentication and role checks are added in Milestone 4, so all endpoints are open for now."
+  },
+  "servers": [
+    {
+      "url": "../",
+      "description": "This backend (relative to this documentation page)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Brands"
+    },
+    {
+      "name": "Vehicles"
+    },
+    {
+      "name": "Test drives"
+    },
+    {
+      "name": "Reviews"
+    },
+    {
+      "name": "External API"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users",
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a user",
+        "description": "The password is hashed with password_hash() and never returned. Email must be unique.",
+        "operationId": "createUser",
+        "requestBody": {
+          "required": true,
+          "description": "New user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Record id",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get a user by id",
+        "operationId": "getUserById",
+        "responses": {
+          "200": {
+            "description": "User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update a user",
+        "description": "Send only the fields to change.",
+        "operationId": "updateUser",
+        "requestBody": {
+          "required": true,
+          "description": "Fields to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete a user",
+        "operationId": "deleteUser",
+        "responses": {
+          "200": {
+            "description": "User deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "description": "Also deletes the user's test drives and reviews (database cascade)."
+      }
+    },
+    "/brands": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "List all brands",
+        "operationId": "getAllBrands",
+        "responses": {
+          "200": {
+            "description": "List of brands",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Brand"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Create a brand",
+        "description": "Brand name must be unique.",
+        "operationId": "createBrand",
+        "requestBody": {
+          "required": true,
+          "description": "New brand",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Brand created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Brand"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/brands/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Record id",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Get a brand by id",
+        "operationId": "getBrandById",
+        "responses": {
+          "200": {
+            "description": "Brand",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Brand"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Update a brand",
+        "description": "Send only the fields to change.",
+        "operationId": "updateBrand",
+        "requestBody": {
+          "required": true,
+          "description": "Fields to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrandUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Brand updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Brand"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Delete a brand",
+        "operationId": "deleteBrand",
+        "responses": {
+          "200": {
+            "description": "Brand deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "description": "A brand that still has vehicles cannot be deleted (400)."
+      }
+    },
+    "/vehicles": {
+      "get": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "List all vehicles",
+        "operationId": "getAllVehicles",
+        "responses": {
+          "200": {
+            "description": "List of vehicles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vehicle"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Create a vehicle",
+        "description": "The brand must exist. VIN must be unique.",
+        "operationId": "createVehicle",
+        "requestBody": {
+          "required": true,
+          "description": "New vehicle",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehicleCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vehicle created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/vehicles/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Record id",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Get a vehicle by id",
+        "operationId": "getVehicleById",
+        "responses": {
+          "200": {
+            "description": "Vehicle",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Update a vehicle",
+        "description": "Send only the fields to change.",
+        "operationId": "updateVehicle",
+        "requestBody": {
+          "required": true,
+          "description": "Fields to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehicleUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vehicle updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicle"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Vehicles"
+        ],
+        "summary": "Delete a vehicle",
+        "operationId": "deleteVehicle",
+        "responses": {
+          "200": {
+            "description": "Vehicle deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "description": "Also deletes the vehicle's test drives and reviews (database cascade)."
+      }
+    },
+    "/test-drives": {
+      "get": {
+        "tags": [
+          "Test drives"
+        ],
+        "summary": "List all test drives",
+        "operationId": "getAllTestDrives",
+        "responses": {
+          "200": {
+            "description": "List of test drives",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TestDrive"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Test drives"
+        ],
+        "summary": "Create a test drive",
+        "description": "The vehicle must not be sold and must be free at that time. scheduled_at must be in the future.",
+        "operationId": "createTestDrive",
+        "requestBody": {
+          "required": true,
+          "description": "New test drive",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestDriveCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Test drive created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestDrive"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/test-drives/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Record id",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Test drives"
+        ],
+        "summary": "Get a test drive by id",
+        "operationId": "getTestDriveById",
+        "responses": {
+          "200": {
+            "description": "Test drive",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestDrive"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Test drives"
+        ],
+        "summary": "Update a test drive",
+        "description": "Only scheduled_at and status can be changed. Send only the fields to change.",
+        "operationId": "updateTestDrive",
+        "requestBody": {
+          "required": true,
+          "description": "Fields to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestDriveUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Test drive updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestDrive"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Test drives"
+        ],
+        "summary": "Delete a test drive",
+        "operationId": "deleteTestDrive",
+        "responses": {
+          "200": {
+            "description": "Test drive deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/reviews": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "List all reviews",
+        "operationId": "getAllReviews",
+        "responses": {
+          "200": {
+            "description": "List of reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Create a review",
+        "description": "A user can review a vehicle only once.",
+        "operationId": "createReview",
+        "requestBody": {
+          "required": true,
+          "description": "New review",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/reviews/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Record id",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Get a review by id",
+        "operationId": "getReviewById",
+        "responses": {
+          "200": {
+            "description": "Review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Update a review",
+        "description": "Only rating and comment can be changed. Send only the fields to change.",
+        "operationId": "updateReview",
+        "requestBody": {
+          "required": true,
+          "description": "Fields to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Review updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Delete a review",
+        "operationId": "deleteReview",
+        "responses": {
+          "200": {
+            "description": "Review deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/vehicles/{id}/specs": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Vehicle id",
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "External API"
+        ],
+        "summary": "Factory specs of a vehicle (decoded from its VIN)",
+        "description": "Calls the NHTSA vPIC VIN decoder (external API) for the VIN of this vehicle and returns the result. The request has a timeout. If the external API fails, the failure is written to backend/logs/error.log and a friendly 503 message is returned; the rest of the API keeps working.",
+        "operationId": "getVehicleSpecs",
+        "responses": {
+          "200": {
+            "description": "Decoded specs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleSpecs"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vehicle not found, or the external API has no specs for this VIN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "External API unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Vehicle specs are temporarily unavailable. Please try again later."
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Validation failed."
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "email": "This email is already registered."
+            }
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Vehicle deleted."
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Sam Customer"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "sam@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "customer"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2026-10-22 14:30:00"
+          }
+        }
+      },
+      "UserCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Sam Customer"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 150,
+            "example": "sam@example.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "minLength": 8,
+            "maxLength": 72,
+            "writeOnly": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "customer"
+            ],
+            "default": "customer"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Sam Customer"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 150,
+            "example": "sam@example.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "minLength": 8,
+            "maxLength": 72,
+            "writeOnly": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "customer"
+            ],
+            "default": "customer"
+          }
+        }
+      },
+      "Brand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Toyota"
+          },
+          "country": {
+            "type": "string",
+            "example": "Japan"
+          }
+        }
+      },
+      "BrandCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Toyota"
+          },
+          "country": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Japan"
+          }
+        },
+        "required": [
+          "name",
+          "country"
+        ]
+      },
+      "BrandUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Toyota"
+          },
+          "country": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Japan"
+          }
+        }
+      },
+      "Vehicle": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "example": 1
+          },
+          "brand_id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "Camry"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1980,
+            "example": 2019
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "example": 18900.0
+          },
+          "mileage": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 42000
+          },
+          "vin": {
+            "type": "string",
+            "minLength": 17,
+            "maxLength": 17,
+            "pattern": "^[A-HJ-NPR-Z0-9]{17}$",
+            "example": "4T1B11HK5KU000001"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "sold"
+            ],
+            "default": "available"
+          }
+        }
+      },
+      "VehicleCreate": {
+        "type": "object",
+        "properties": {
+          "brand_id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "Camry"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1980,
+            "example": 2019
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "example": 18900.0
+          },
+          "mileage": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 42000
+          },
+          "vin": {
+            "type": "string",
+            "minLength": 17,
+            "maxLength": 17,
+            "pattern": "^[A-HJ-NPR-Z0-9]{17}$",
+            "example": "4T1B11HK5KU000001"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "sold"
+            ],
+            "default": "available"
+          }
+        },
+        "required": [
+          "brand_id",
+          "model",
+          "year",
+          "price",
+          "mileage",
+          "vin"
+        ]
+      },
+      "VehicleUpdate": {
+        "type": "object",
+        "properties": {
+          "brand_id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "Camry"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1980,
+            "example": 2019
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "example": 18900.0
+          },
+          "mileage": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 42000
+          },
+          "vin": {
+            "type": "string",
+            "minLength": 17,
+            "maxLength": 17,
+            "pattern": "^[A-HJ-NPR-Z0-9]{17}$",
+            "example": "4T1B11HK5KU000001"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "sold"
+            ],
+            "default": "available"
+          }
+        }
+      },
+      "VehicleSpecs": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string"
+          },
+          "make": {
+            "type": "string",
+            "example": "TOYOTA"
+          },
+          "model": {
+            "type": "string",
+            "nullable": true,
+            "example": "Camry"
+          },
+          "model_year": {
+            "type": "string",
+            "nullable": true,
+            "example": "2019"
+          },
+          "body_class": {
+            "type": "string",
+            "nullable": true,
+            "example": "Sedan/Saloon"
+          },
+          "engine": {
+            "type": "string",
+            "nullable": true,
+            "example": "2.5 L, 4 cylinders, 203 hp"
+          },
+          "fuel_type": {
+            "type": "string",
+            "nullable": true,
+            "example": "Gasoline"
+          },
+          "drive_type": {
+            "type": "string",
+            "nullable": true
+          },
+          "plant_country": {
+            "type": "string",
+            "nullable": true,
+            "example": "UNITED STATES (USA)"
+          },
+          "plant_city": {
+            "type": "string",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true,
+            "description": "Warning from the external API if the VIN could not be fully decoded"
+          },
+          "source": {
+            "type": "string",
+            "example": "NHTSA vPIC"
+          }
+        }
+      },
+      "TestDrive": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "example": 2
+          },
+          "vehicle_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "scheduled_at": {
+            "type": "string",
+            "example": "2026-12-05 10:00:00"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "cancelled"
+            ]
+          }
+        }
+      },
+      "TestDriveCreate": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 2
+          },
+          "vehicle_id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "scheduled_at": {
+            "type": "string",
+            "description": "Future date and time, e.g. 2026-12-05 10:00 or 2026-12-05T10:00",
+            "example": "2026-12-05 10:00"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "cancelled"
+            ],
+            "default": "pending"
+          }
+        },
+        "required": [
+          "user_id",
+          "vehicle_id",
+          "scheduled_at"
+        ]
+      },
+      "TestDriveUpdate": {
+        "type": "object",
+        "properties": {
+          "scheduled_at": {
+            "type": "string",
+            "example": "2026-12-06 11:00"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "approved",
+              "cancelled"
+            ]
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "example": 2
+          },
+          "vehicle_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 5
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true,
+            "example": "Smooth ride and honest seller."
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2026-10-30 12:00:00"
+          }
+        }
+      },
+      "ReviewCreate": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 2
+          },
+          "vehicle_id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 5
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          }
+        },
+        "required": [
+          "user_id",
+          "vehicle_id",
+          "rating"
+        ]
+      },
+      "ReviewUpdate": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 1000,
+            "nullable": true
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid input or a business rule was broken",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Record not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Vehicle not found."
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Unexpected server error (no technical details are returned)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Internal server error."
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -16,10 +16,15 @@ Redline Autos: SPA for a used-car dealership. Customers browse vehicles, book te
 - No backend code in the frontend and no frontend code in the backend.
 - Secrets (DB credentials, JWT secret, API keys) live only in `backend/config/config.php`, which is git-ignored. Commit `config.example.php`.
 - Never expose stack traces, SQL or file paths in API responses.
+- Services (`backend/services/`) hold validation and business rules and are the only layer that calls DAOs. A service throws `ServiceException` (its code is the HTTP status). Routes only read the request, call a service and return JSON with `Flight::json()`.
+- Services are registered in `backend/index.php` (`Flight::register`) and used in routes as `Flight::vehicleService()`.
+- Error responses are JSON: `{"error": "...", "details": {...}}`. Status codes: 200, 201, 400, 404, 500 (503 when the external API is down).
+- External API calls live in a service (`VinDecoderService`): timeout set, failures written to `backend/logs/error.log`, friendly message returned.
+- Every endpoint is documented in `backend/swagger/openapi.json`. Update it when a route changes.
 
 ## Folder structure
 ```
-backend/  routes/ services/ dao/ middleware/ config/ logs/(git-ignored)
+backend/  index.php  composer.json  .htaccess  routes/ services/ dao/ middleware/ config/ swagger/ logs/(git-ignored)
 frontend/ index.html  css/  js/  views/  assets/
 database/ redline_autos.sql (schema + sample data)
 docs/     ERD.md  AI_LOG.md

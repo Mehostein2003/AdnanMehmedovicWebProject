@@ -11,4 +11,11 @@ return [
         'pass'    => 'your_db_password',
         'charset' => 'utf8mb4',
     ],
+
+
+    'external_api' => [
+        'vin_decoder_url' => 'https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/',
+        'timeout'         => 5,   // seconds for the whole request
+        'connect_timeout' => 3,   // seconds to connect
+    ],
 ];

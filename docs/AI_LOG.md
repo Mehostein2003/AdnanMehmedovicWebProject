@@ -25,3 +25,15 @@
 1. *Not tested by the AI.* The AI had no PHP or MySQL in its environment, so the SQL file and the DAO classes were written but never run. The student must import the SQL file and try each DAO method once before submitting.
 2. *Sample password hash.* The AI could not generate a bcrypt hash, so all sample users use a hash copied from the PHP manual example (password `rasmuslerdorf`). It is only sample data, and the student should check it with `password_verify` or replace it.
 
+## Milestone 3: Services, routes, OpenAPI, external API
+
+**AI tool:** Claude (Sonnet 5.5) in the claude.ai chat interface.
+
+**Used for:** `backend/services/` (`BaseService`, `ServiceException`, one service per entity, `VinDecoderService`); FlightPHP entry point `backend/index.php` and the route files in `backend/routes/`; `composer.json` and `.htaccess`; `backend/swagger/openapi.json` and the Swagger page; the Milestone 3 updates to `config.example.php`, `README.md` and `AGENTS.md`. The student reviews and adjusts all of it and must be able to explain it.
+
+**Most important prompts (student):**
+1. The project requirements PDF and the project archive attached, with the instruction to do everything needed for Milestone 3 and nothing more than Milestone 3.
+
+**Cases where the AI was wrong or produced poor code:**
+1. *Not tested by the AI.* The AI had no PHP, Composer, MySQL or internet access in its environment, so none of the PHP code was run and the NHTSA API was never called. Only `openapi.json` was checked (valid JSON, all `$ref` targets exist). The student must run `composer install`, start the server and try every endpoint once (see README) before submitting.
+2. *Sample VINs are not real.* The Milestone 2 sample data (written by the AI) uses made-up VINs, so the VIN decoder endpoint can return partial data or "no specs found" for them. Noticed while designing the `/vehicles/{id}/specs` endpoint. Not changed in this milestone; the student can test the feature by updating a vehicle with a real VIN.
